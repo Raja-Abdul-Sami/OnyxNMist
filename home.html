@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnyxNMist - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: #111;
+            color: white;
+            scroll-behavior: smooth; /* Smooth scrolling */
+        }
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .review-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            perspective: 1000px;
+            position: relative;
+        }
+
+        .review-card {
+            width: 300px;
+            height: 150px;
+            background: #222;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            position: absolute;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+
+        .review-card.hide {
+            opacity: 0;
+            transform: rotateY(180deg);
+        }
+
+        .review-card.show {
+            opacity: 1;
+            transform: rotateY(0);
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ff3c78;
+        }
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: url('https://source.unsplash.com/1600x900/?perfume') no-repeat center center/cover;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            animation: fadeIn 1.5s; /* Animation for hero section */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .hero h1 {
+            font-size: 40px; /* Reduced font size */
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 16px; /* Reduced font size */
+            margin-bottom: 30px;
+        }
+        .btn {
+            padding: 10px 25px; /* Reduced padding */
+            background: #ff3c78;
+            border: none;
+            color: white;
+            font-size: 16px; /* Reduced font size */
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.1s;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background: #ff1e5a;
+            transform: scale(1.05);
+        }
+        .section {
+            padding: 60px 10%;
+            text-align: center;
+        }
+        .news-section {
+            padding: 60px 10%;
+            background: #222; /* Background for the news section */
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+        }
+        .news-section h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        .news-item {
+            background: #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            color: white;
+            transition: background 0.3s;
+        }
+        .news-item:hover {
+            background: #ff3c78; /* Change background on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="about.html">About</a>
+            <a href="#">Contact</a>
+            <a href="index.html">Logout</a>
+        </nav>
+    </header>
+    
+    <audio id="backgroundMusic" src="assets/music/Charlie Puth - Attention [Official Video].mp3" autoplay loop></audio>
+    
+    <section class="hero">
+        <h1>Welcome to OnyxNMist</h1>
+        <p>Discover luxurious scents crafted for elegance.</p>
+        <a href="shop.html" class="btn">Explore Perfumes</a>
+    </section>
+    
+    <section class="section">
+        <h2>Customer Reviews</h2>
+        <div id="reviews-container" class="review-container">
+            <div id="review-card" class="review-card"></div>
+        </div>
+    </section>
+
+    <!-- News Section for Deals, Offers, or New Products -->
+    <section class="news-section">
+        <h2>Latest News</h2>
+        <div id="news-container">
+            <!-- News items will be dynamically generated here -->
+        </div>
+    </section>
+
+    <script>
+        // Sample news items
+        const newsItems = [
+            { title: "Spring Sale!", description: "Get 20% off on all floral perfumes this spring!", date: "March 1, 2025" },
+            { title: "New Arrival: Citrus Burst", description: "Introducing our latest fragrance, Citrus Burst, perfect for summer!", date: "March 5, 2025" },
+            { title: "Limited Edition: Velvet Rose", description: "Don't miss out on our limited edition Velvet Rose, available for a short time!", date: "March 7, 2025" },
+            { title: "Buy One Get One Free", description: "For this weekend only, buy one perfume and get another free!", date: "March 8, 2025" }
+        ];
+
+        // Function to render news items dynamically
+        function renderNews() {
+            const newsContainer = document.getElementById("news-container");
+            newsContainer.innerHTML = ""; // Clear existing items
+
+            newsItems.forEach(item => {
+                const newsDiv = document.createElement("div");
+                newsDiv.className = "news-item";
+                newsDiv.innerHTML = `
+                    <h3>${item.title}</h3>
+                    <p>${item.description}</p>
+                    <small>${item.date}</small>
+                `;
+                newsContainer.appendChild(newsDiv);
+            });
+        }
+
+        // Call the function to render news items
+        renderNews();
+
+        // Ensure music plays continuously across navigation
+        document.addEventListener("DOMContentLoaded", function () {
+            const music = document.getElementById("backgroundMusic");
+            const savedTime = localStorage.getItem("musicTime") || 0;
+
+            music.currentTime = savedTime;
+            music.play();
+
+            setInterval(() => {
+                localStorage.setItem("musicTime", music.currentTime);
+            }, 1000);
+        });
+
+        const reviews = [
+            "Absolutely love the Midnight Elegance scent! It lasts all day.",
+            "OnyxNMist perfumes are my go-to now. Ocean Breeze is so fresh!",
+            "Velvet Rose is divine! Soft and elegant, highly recommend.",
+            "Such luxurious fragrances at great prices! Will buy again."
+        ];
+
+        let currentReviewIndex = 0;
+        const reviewCard = document.getElementById("review-card");
+
+        function showNextReview() {
+            reviewCard.classList.remove("show");
+            reviewCard.classList.add("hide");
+
+            setTimeout(() => {
+                reviewCard.innerHTML = `<p>⭐ ${reviews[currentReviewIndex]}</p>`;
+                reviewCard.classList.remove("hide");
+                reviewCard.classList.add("show");
+
+                currentReviewIndex = (currentReviewIndex + 1) % reviews.length;
+            }, 1000); // Wait for animation before changing text
+        }
+
+        // Show first review
+        showNextReview();
+        setInterval(showNextReview, 4000);
+    </script>
+    
+    <footer>
+        &copy; 2025 OnyxNMist. All Rights Reserved.
+    </footer>
+</body>
+</html>

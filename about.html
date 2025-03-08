@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - OnyxNMist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: #111;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.5s;
+        }
+        header {
+            background: rgba(3, 3, 3, 0.9);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+            width: 100%;
+            position: fixed;
+            z-index: 1000;
+            transition: background 0.5s;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff3c78;
+            cursor: pointer;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+        nav a:hover {
+            color: #ff3c78;
+            transform: scale(1.1);
+        }
+        .content {
+            margin-top: 80px;
+            padding: 20px;
+            flex: 1;
+            text-align: center;
+            animation: fadeInUp 1s ease-in-out;
+        }
+        h1, h2 {
+            color: #ff3c78;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .testimonials {
+            padding: 40px 20px;
+            background: #222;
+            border-radius: 10px;
+            margin-top: 20px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+        .testimonial {
+            margin: 20px 0;
+            font-style: italic;
+            color: #ff3c78;
+            opacity: 0; /* Start hidden for animation */
+            transform: translateY(20px); /* Start slightly below */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Animation effect */
+        }
+        .testimonial.active {
+            opacity: 1; /* Show when active */
+            transform: translateY(0); /* Move to original position */
+        }
+        .testimonial-author {
+            font-weight: bold;
+            margin-top: 10px;
+            color: white;
+        }
+        .testimonial-author span {
+            color: #ff1e5a; /* Different color for the role */
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .team {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+.team-member {
+    background: #333;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s, opacity 0.3s;
+    width: 250px;
+    cursor: pointer;
+    position: relative;
+    opacity: 0; /* Start hidden for animation */
+    transform: translateY(20px); /* Start slightly below */
+}
+.team-member.active {
+    opacity: 1; /* Show when active */
+    transform: translateY(0); /* Move to original position */
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo" onclick="changeLogoText()">OnyxNMist</div>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="index.html">Logout</a>
+            <a href="cart.html" id="cart-icon">
+                <img src="https://img.icons8.com/material-outlined/24/ffffff/shopping-cart.png" alt="Cart" />
+                <span id="cart-count">0</span>
+            </a>
+        </nav>
+    </header>
+
+    <audio id="backgroundMusic" src="assets/music/Charlie Puth - Attention [Official Video].mp3" autoplay loop></audio>
+
+    <div class="content">
+        <h1>About Us</h1>
+        <h2>Meet Our Team</h2>
+        <div class="team" id="team-container"></div>
+
+        <h2>What Our Customers Say</h2>
+        <div class="testimonials" id="testimonials-container">
+            <!-- Testimonials will be dynamically generated here -->
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 OnyxNMist. All Rights Reserved.
+    </footer>
+
+    <script>
+        const testimonials = [
+            { text: "OnyxNMist has transformed my fragrance collection! The scents are exquisite!", author: "Sarah Johnson", role: "Fragrance Enthusiast" },
+            { text: "I love the unique blends! Each perfume tells a story.", author: "Mark Smith", role: "Perfume Blogger" },
+            { text: "The quality is unmatched. I always receive compliments!", author: "Emily Davis", role: "Fashion Influencer" },
+            { text: "Every scent is a masterpiece! Highly recommend OnyxNMist.", author: "John Doe", role: "Beauty Expert" }
+        ];
+
+        let currentTestimonialIndex = 0;
+
+        function renderTestimonials() {
+            const container = document.getElementById("testimonials-container");
+            container.innerHTML = ""; // Clear existing testimonials
+
+            testimonials.forEach((testimonial, index) => {
+                const testimonialDiv = document.createElement("div");
+                testimonialDiv.className = "testimonial";
+                testimonialDiv.innerHTML = `
+                    <p>"${testimonial.text}"</p>
+                    <div class="testimonial-author">- ${testimonial.author}, <span>${testimonial.role}</span></div>
+                `;
+                if (index === currentTestimonialIndex) {
+                    testimonialDiv.classList.add("active");
+                }
+                container.appendChild(testimonialDiv);
+            });
+        }
+
+        function showNextTestimonial() {
+            const testimonialElements = document.querySelectorAll(".testimonial");
+            testimonialElements[currentTestimonialIndex].classList.remove("active");
+
+            currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
+            testimonialElements[currentTestimonialIndex].classList.add("active");
+        }
+
+        // Initial render
+        renderTestimonials();
+        setInterval(showNextTestimonial, 4000); // Change testimonial every 4 seconds
+
+        // Ensure music plays continuously across navigation
+        document.addEventListener("DOMContentLoaded", function () {
+            const music = document.getElementById("backgroundMusic");
+            const savedTime = localStorage.getItem("musicTime") || 0;
+
+            music.currentTime = savedTime;
+            music.play();
+
+            setInterval(() => {
+                localStorage.setItem("musicTime", music.currentTime);
+            }, 1000);
+        });
+
+        // Team rendering function (as previously defined)
+        const teamMembers = [
+    { name: "Gojo Satoru", role: "Founder & CEO", img: "assets/images/Gojo.jpg" },
+    { name: "Abdullah Khan", role: "Head Perfumer", img: "assets/images/abdullah.jpg" },
+    { name: "Zeeshan Ahmed", role: "Marketing Director", img: "assets/images/zeeshan.jpg" },
+    { name: "Muhammad Ashar", role: "Product Designer", img: "assets/images/toji.jpg" }
+];
+
+function renderTeam() {
+    const teamContainer = document.getElementById("team-container");
+    teamContainer.innerHTML = ""; // Clear existing items
+
+    teamMembers.forEach((member, index) => {
+        let memberDiv = document.createElement("div");
+        memberDiv.classList.add("team-member");
+        memberDiv.innerHTML = `
+            <h3>${member.name}</h3>
+            <img src="${member.img}" alt="${member.name}" style="width: 100px; height: 100px;">
+            <p>${member.role}</p>
+        `;
+        teamContainer.appendChild(memberDiv);
+
+        // Add animation class after a short delay
+        setTimeout(() => {
+            memberDiv.classList.add("active");
+        }, index * 200); // Stagger the animation for each member
+    });
+}
+
+// Call the function to render the team
+renderTeam();
+        function expandImage(img) {
+            if (img.classList.contains("expanded")) {
+                img.classList.remove("expanded");
+            } else {
+                document.querySelectorAll(".expanded").forEach(el => el.classList.remove("expanded"));
+                img.classList.add("expanded");
+            }
+        }
+
+        renderTeam();
+    </script>
+</body>
+</html>
