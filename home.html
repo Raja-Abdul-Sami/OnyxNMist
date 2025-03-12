@@ -12,12 +12,13 @@
             font-family: Arial, sans-serif;
         }
         body {
-            background: #111;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a, #222222);
             color: white;
             scroll-behavior: smooth; /* Smooth scrolling */
         }
         header {
-            background: rgba(0, 0, 0, 0.9);
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.85), rgba(30, 30, 30, 0.9));
+backdrop-filter: blur(5px);
             padding: 15px;
             display: flex;
             justify-content: center;
@@ -37,7 +38,7 @@
         .review-card {
             width: 300px;
             height: 150px;
-            background: #222;
+            background: linear-gradient(135deg, #222, #2a2a2a);
             color: white;
             padding: 20px;
             border-radius: 10px;
@@ -83,7 +84,8 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: url('https://source.unsplash.com/1600x900/?perfume') no-repeat center center/cover;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.9)), 
+            url('https://source.unsplash.com/1600x900/?perfume') no-repeat center center/cover;
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
             animation: fadeIn 1.5s; /* Animation for hero section */
         }
@@ -101,7 +103,7 @@
         }
         .btn {
             padding: 10px 25px; /* Reduced padding */
-            background: #ff3c78;
+            background: linear-gradient(90deg, #ff3c78, #ff1e5a);
             border: none;
             color: white;
             font-size: 16px; /* Reduced font size */
@@ -111,7 +113,8 @@
             text-decoration: none;
         }
         .btn:hover {
-            background: #ff1e5a;
+            background: linear-gradient(90deg, #ff1e5a, #e60048);
+            box-shadow: 0px 0px 10px rgba(255, 60, 120, 0.6);
             transform: scale(1.05);
         }
         .section {
@@ -138,7 +141,7 @@
             transition: background 0.3s;
         }
         .news-item:hover {
-            background: #ff3c78; /* Change background on hover */
+            background: linear-gradient(90deg, #ff3c78, #ff1e5a);
         }
     </style>
 </head>
@@ -152,6 +155,8 @@
             <a href="index.html">Logout</a>
         </nav>
     </header>
+    
+    <audio id="backgroundMusic" src="assets/music/Charlie Puth - Attention [Official Video].mp3" autoplay loop></audio>
     
     <section class="hero">
         <h1>Welcome to OnyxNMist</h1>
